@@ -54,21 +54,38 @@ class MainActivity : ComponentActivity() {
         val permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { perms ->
-            val canEnableBluetooth = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                perms[Manifest.permission.BLUETOOTH_CONNECT] == true
-            } else true
-
-            if(canEnableBluetooth && !isBluetoothEnabled) {
+            val canEnableBluetooth = when {
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                    // android 12+ requires BLUETOOTH_CONNECT permission
+                    perms[Manifest.permission.BLUETOOTH_CONNECT] == true
+                }
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
+                    // android 10 and 11 require ACCESS_FINE_LOCATION for Bluetooth scanning
+                    perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
+                }
+                else -> {
+                    true
+                }
+            }
+            if (canEnableBluetooth && !isBluetoothEnabled) {
                 enableBluetoothLauncher.launch(
                     Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 )
             }
         }
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.BLUETOOTH_SCAN,
                     Manifest.permission.BLUETOOTH_CONNECT,
+                    Manifest.permission.BLUETOOTH_ADMIN
+                )
+            )
+        }else {
+            permissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.BLUETOOTH,
                     Manifest.permission.BLUETOOTH_ADMIN
                 )
             )
@@ -82,7 +99,7 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(key1 = state.errorMessage) {
                     state.errorMessage?.let { message ->
                         Toast.makeText(
-                            applicationContext,
+                             applicationContext,
                             message,
                             Toast.LENGTH_LONG
                         ).show()
