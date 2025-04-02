@@ -1,40 +1,43 @@
-# Forvia Appning Stage Application  
+# Forvia Appning Stage - Quick Setup Guide
 
-## Overview  
-The **Appning Stage** app communicates with the **AAOS Appning Hub** (System app) using a **Bluetooth socket connection** on real devices and a **TCP socket connection** on emulators.  
+## Overview
+The **Appning Stage** app communicates with the **Appning Hub** via Bluetooth (real devices) or TCP (emulators). It sends vehicle data including fuel level, location, and vehicle type (Electric or Gasoline), in **Live Mode** (real-time data) or **Demo Mode** (simulated data).
 
-## Purpose of Appning Stage  
-The Appning Stage app is designed to **simulate and send custom data** to the Appning Hub, including:  
+## Connecting via Bluetooth
+1. **Enable Bluetooth** in system settings.
+2. **Pair the Device**: Go to **Bluetooth settings**, scan, and pair with the device.
+3. **Launch the Appning Stage app** and tap **Scan Paired Devices**.
+4. **Select the paired device** to connect.
+5. **Connection Established**: Data starts transmitting once connected.
 
-- ✅ **Predefined or Custom Location** (via Map)  
-- ✅ **Fuel Level & Battery Level**  
-- ✅ **Vehicle Type** (Electric or Gasoline)
+## Connecting via TCP (Emulators)
+1. Ensure **TCP connection** is configured for the emulator.
+2. **Start the Appning Stage app**, and it will automatically connect via TCP to the Appning Hub.
 
-It operates in two modes:  
+## Data Transmitted
+Log example when sending data:
 
-- **Live Mode**: Receives real-time vehicle data from the Appning Hub, including **battery level, location, fuel level, RPM**, and other essential properties.  
-- **Demo Mode**: Sends **simulated vehicle data** to the Appning Hub, allowing users to test different conditions.  
+```json
+{
+  "demoMode": true,
+  "fuelLevel": 50.0,
+  "fuelType": [1],
+  "location": [40.7128, -74.0060],
+  "override": ["fuelType", "location", "fuelLevel"]
+}
+```
 
-The connection remains **persistent**, ensuring **seamless data transmission** while allowing the Appning Stage app to switch between **live and demo modes** as needed.  
+## Data Breakdown:
+- **demoMode**: Indicates simulated data (`true`) or real-time data (`false`).
+- **fuelLevel**: Vehicle’s fuel level.
+-   **Fuel type codes**:  
+  - `1` = Gasoline (or other non-electric vehicles)  
+  - `10` = Electric
+- **location**: Latitude & Longitude of the vehicle.
+- **override**: Custom data (if any).
 
-## Steps to Connect and Transmit Data via Bluetooth  
+## Troubleshooting
+1. **Check Logs**: Look for **"Connection Established"** in both the **Appning Hub** and **Appning Stage** logs.
+2. **Verify Data Flow**: Ensure that the **Appning Hub** displays the correct vehicle data.
+3. **Enable Debug Logs**: For detailed data transmission logs, enable **debug mode** to track outgoing data.
 
-### 1. Enable Bluetooth  
-- Open **System Settings** on the device.  
-- Turn on **Bluetooth**.  
-
-### 2. Pair the Device  
-- Go to **Bluetooth settings**.  
-- Scan for available devices.  
-- Select and **pair** with the target device.  
-
-### 3. Open the Appning Stage App  
-- Launch the **Appning Stage** app.  
-- Tap on **Scan Paired Devices**.  
-
-### 4. Select Paired Device  
-- Choose the **previously paired device** from the list.  
-
-### 5. Establish Connection  
-- The **Appning Stage** app connects to the selected device.  
-- Once connected, **data transmission begins**.  
