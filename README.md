@@ -4,12 +4,28 @@
 
 The **Appning Stage** app is designed to **send mock vehicle data** to the in-vehicle infotainment system for testing purposes. It does this by transmitting data via **Bluetooth (for real devices)** or **TCP (for emulators)**.
 
-The **[Appning Hub](<https://github.com/faurecia-aptoide/appning-hub>)** acts as the receiver, collecting this vehicle data and using it to **display targeted ads** and other relevant content on the infotainment system.
+The **[Appning Hub](<https://github.com/faurecia-aptoide/appning-hub>)** acts as the receiver in Car infotainment system, collecting this vehicle data and using it to **display targeted ads** and other relevant content on the infotainment system.
 
 This allows developers and testers to **simulate different driving scenarios**—such as changes in **location, fuel level, and fuel type**—without needing a physical vehicle, ensuring **accurate ad targeting** and **infotainment system behavior validation**.
 
 
 ![Appning Stage UI](assets/architecture.png)
+
+## How to Install 🚀
+
+1. **Download the Latest Build**  
+   - Go to the **[Appning Hub Releases](https://github.com/faurecia-aptoide/appning-stage/releases)** page.  
+   - Download the **latest build** of the Appning Stage app.  
+
+2. **Install the App**  
+   - For **Android**: Install the APK on your target device or emulator.  
+   - For **Emulators**: Ensure your emulator is properly set up for TCP connections.  
+
+3. **Connecting to Appning Hub**  
+   - **For Real Devices**: Use **Bluetooth socket connection** to communicate with Appning Hub.  
+   - **For Emulators**: Use **TCP connection** for data transmission (see the steps below).  
+
+Now, proceed with the **Bluetooth** or **TCP setup** depending on your device type. 🚀
 
 
 ## Connecting via Bluetooth
@@ -21,9 +37,11 @@ This allows developers and testers to **simulate different driving scenarios**�
 
 ## Connecting via TCP (Emulators)
 1. **Ensure TCP connection is configured** for the emulator.
-2. **Run the following ADB command** to forward the TCP port (8080) on the emulator to the Appning Hub: **adb -s emulator-5554 forward tcp:8080 tcp:8080** 
-3. This command ensures that the emulator can communicate with the Appning Hub over the TCP protocol on port 8080. Make sure the emulator device ID (`emulator-5554`) matches your running instance.
-4. Start the Appning Stage app, and click on connect button.
+2. **Run the following ADB command** to forward the TCP port (8080) on the emulator to the Appning Hub.
+   
+   Run the command: `adb -s emulator-5554 forward tcp:8080 tcp:8080`
+4. This command ensures that the emulator can communicate with the Appning Hub over the TCP protocol on port 8080. Make sure the emulator device ID (`emulator-5554`) matches your running instance.
+5. Start the Appning Stage app, and click on connect button.
 
 ## Data Transmitted
 Log example when sending data:
