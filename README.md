@@ -36,9 +36,8 @@ Now, proceed with the **Bluetooth** or **TCP setup** depending on your device ty
 5. **Connection Established**: Data starts transmitting once connected.
 
 ## Connecting via TCP (Emulators)
-1. **Ensure TCP connection is configured** for the emulator.
+1. Open the Appning Stage.
 2. **Run the following ADB command** to forward the TCP port (8080) on the emulator to the Appning Hub.
-   
    Run the command: `adb -s emulator-5554 forward tcp:8080 tcp:8080`
 4. This command ensures that the emulator can communicate with the Appning Hub over the TCP protocol on port 8080. Make sure the emulator device ID (`emulator-5554`) matches your running instance.
 5. Start the Appning Stage app, and click on connect button.
