@@ -7,7 +7,9 @@ The **Appning Stage** app is designed to **send mock vehicle data** to the in-ve
 The **[Appning Hub](<https://github.com/faurecia-aptoide/appning-hub>)** acts as the receiver, collecting this vehicle data and using it to **display targeted ads** and other relevant content on the infotainment system.
 
 This allows developers and testers to **simulate different driving scenarios**—such as changes in **location, fuel level, and fuel type**—without needing a physical vehicle, ensuring **accurate ad targeting** and **infotainment system behavior validation**.
-![Appning Stage UI](assets/appning-stage-ui.png)
+
+
+![Appning Stage UI](assets/architecture.png)
 
 
 ## Connecting via Bluetooth
