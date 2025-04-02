@@ -8,6 +8,7 @@ import android.bluetooth.BluetoothServerSocket
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.pm.PackageManager
+import com.forvia.serverdemoapp.data.mapper.toByteArray
 import com.forvia.serverdemoapp.domain.BluetoothController
 import com.forvia.serverdemoapp.domain.BluetoothDeviceDomain
 import com.forvia.serverdemoapp.domain.BluetoothMessage
@@ -144,7 +145,23 @@ class AndroidBluetoothController(
     }
 
     override suspend fun trySendMessage(message: String): BluetoothMessage? {
-        TODO("Not yet implemented")
+        if (!hasPermission(Manifest.permission.BLUETOOTH_CONNECT)) {
+            return null
+        }
+
+        if (dataTransferService == null) {
+            return null
+        }
+
+        val bluetoothMessage = BluetoothMessage(
+            message = message,
+            senderName = bluetoothAdapter?.name ?: "Unknown name",
+            isFromLocalUser = true
+        )
+
+        dataTransferService?.sendMessage(bluetoothMessage.toByteArray())
+
+        return bluetoothMessage
     }
 
     override fun closeConnection() {

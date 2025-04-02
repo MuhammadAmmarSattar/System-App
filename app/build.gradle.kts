@@ -61,6 +61,7 @@ dependencies {
 
     implementation(libs.androidx.hilt.common)
     implementation(libs.hilt.android)
+    implementation ("com.google.code.gson:gson:2.11.0")
 
     kapt(libs.hilt.android.compiler)
     kapt(libs.hilt.compiler)

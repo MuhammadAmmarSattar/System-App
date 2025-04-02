@@ -28,15 +28,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
+import com.forvia.serverdemoapp.data.Mock
 import com.forvia.serverdemoapp.presentation.screen.ChatScreen
 import com.forvia.serverdemoapp.presentation.screen.DeviceScreen
 import com.forvia.serverdemoapp.presentation.viewmodel.BluetoothViewModel
 import com.forvia.serverdemoapp.ui.theme.ServerDemoAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+
     private val bluetoothManager by lazy {
         applicationContext.getSystemService(BluetoothManager::class.java)
     }
@@ -46,6 +54,7 @@ class MainActivity : ComponentActivity() {
 
     private val isBluetoothEnabled: Boolean
         get() = bluetoothAdapter?.isEnabled == true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val enableBluetoothLauncher = registerForActivityResult(
@@ -59,10 +68,12 @@ class MainActivity : ComponentActivity() {
                     // android 12+ requires BLUETOOTH_CONNECT permission
                     perms[Manifest.permission.BLUETOOTH_CONNECT] == true
                 }
+
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> {
                     // android 10 and 11 require ACCESS_FINE_LOCATION for Bluetooth scanning
                     perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
                 }
+
                 else -> {
                     true
                 }
@@ -74,7 +85,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.BLUETOOTH_SCAN,
@@ -82,7 +93,7 @@ class MainActivity : ComponentActivity() {
                     Manifest.permission.BLUETOOTH_ADMIN
                 )
             )
-        }else {
+        } else {
             permissionLauncher.launch(
                 arrayOf(
                     Manifest.permission.BLUETOOTH,
@@ -99,14 +110,14 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(key1 = state.errorMessage) {
                     state.errorMessage?.let { message ->
                         Toast.makeText(
-                             applicationContext,
+                            applicationContext,
                             message,
                             Toast.LENGTH_LONG
                         ).show()
                     }
                 }
                 LaunchedEffect(key1 = state.isConnected) {
-                    if(state.isConnected) {
+                    if (state.isConnected) {
                         Toast.makeText(
                             applicationContext,
                             "You're connected!",
@@ -129,15 +140,23 @@ class MainActivity : ComponentActivity() {
                                 Text(text = "Connecting...")
                             }
                         }
+
                         state.isConnected -> {
                             ChatScreen(
                                 state = state,
                                 onDisconnect = viewModel::disconnectFromDevice,
-                                onSendMessage = { message ->
+                                onSendMessage = {
 
+                                    lifecycleScope.launch {
+                                        while (true) {
+                                            viewModel.sendMessage(Mock.generateMockVehicleData())
+                                            delay(3000)
+                                        }
+                                    }
                                 }
                             )
                         }
+
                         else -> {
 //                            DeviceScreen(
 //                                state = state,

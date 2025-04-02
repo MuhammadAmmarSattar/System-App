@@ -12,25 +12,35 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.forvia.serverdemoapp.presentation.state.BluetoothUiState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ChatScreen(
     state: BluetoothUiState,
     onDisconnect: () -> Unit,
-    onSendMessage: (String) -> Unit
+    onSendMessage: () -> Unit
 ) {
     val message = rememberSaveable {
         mutableStateOf("")
     }
     val keyboardController = LocalSoftwareKeyboardController.current
-
+    val scope = rememberCoroutineScope()
+//    LaunchedEffect(Unit) {
+//        scope.launch {
+//            delay(5000)
+//            throw Exception("Something went wrong")
+//        }
+//    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,10 +82,11 @@ fun ChatScreen(
                     )
                 }
             }
+
         }
         Row(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth().weight(0.5f)
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -88,7 +99,7 @@ fun ChatScreen(
                 }
             )
             IconButton(onClick = {
-                onSendMessage(message.value)
+                onSendMessage()
                 message.value = ""
                 keyboardController?.hide()
             }) {
