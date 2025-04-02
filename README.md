@@ -1,10 +1,19 @@
 # Forvia Appning Stage Application  
 
 ## Overview  
-The **Appning Stage** app communicates with the **AAOS Appning Hub** (System app) via a **Bluetooth socket connection**. It operates in two modes:  
+The **Appning Stage** app communicates with the **AAOS Appning Hub** (System app) using a **Bluetooth socket connection** on real devices and a **TCP socket connection** on emulators.  
+
+## Purpose of Appning Stage  
+The Appning Stage app is designed to **simulate and send custom data** to the Appning Hub, including:  
+
+- ✅ **Predefined or Custom Location** (via Map)  
+- ✅ **Fuel Level & Battery Level**  
+- ✅ **Vehicle Type** (Electric or Gasoline)
+
+It operates in two modes:  
 
 - **Live Mode**: Receives real-time vehicle data from the Appning Hub, including **battery level, location, fuel level, RPM**, and other essential properties.  
-- **Demo Mode**: Allows overriding and simulating vehicle data, giving control over how the Appning Hub behaves.  
+- **Demo Mode**: Sends **simulated vehicle data** to the Appning Hub, allowing users to test different conditions.  
 
 The connection remains **persistent**, ensuring **seamless data transmission** while allowing the Appning Stage app to switch between **live and demo modes** as needed.  
 
