@@ -74,10 +74,14 @@ Log example when sending data:
 **Tip:** Restart the devices or reboot the emulator if the connection fails.
 
 #### 2. Verify Data Flow
-- After the connection is established, make sure the **Appning Hub** shows correct data (fuel level, location, etc.).
-- If data is missing or incorrect, verify the app is transmitting the expected information.
+- After the connection is established, make sure the **Appning Hub** displays accurate data (fuel level, location, etc.).
+- If data appears missing or incorrect, confirm that the app is transmitting the expected information.
+- You can monitor this using logs:
+  - Look for `New message received:` (from the hub)
+  - Look for `Sending data to device:` (from the stage)
+  - Both logs can be filtered easily using the **stage package name** as a tag.
 
-**Tip:** Double-check the app’s data format in the logs for accuracy.
+**Tip:** Double-check the data format in these logs to ensure it matches what the hub expects.
 
 #### 3. Enable Debug Logs
 - If you need more details, enable **debug mode** to track data transmission.
