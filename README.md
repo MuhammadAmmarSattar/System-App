@@ -14,7 +14,7 @@ This allows developers and testers to **simulate different driving scenarios**â€
 ## How to Install ðŸš€
 
 1. **Download the Latest Build**  
-   - Go to the **[Appning Hub Releases](https://github.com/faurecia-aptoide/appning-stage/releases)** page.  
+   - Go to the **[Appning Stage Releases](https://github.com/faurecia-aptoide/appning-stage/releases)** page.  
    - Download the **latest build** of the Appning Stage app.  
 
 2. **Install the App**  
